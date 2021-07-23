@@ -25,6 +25,7 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  List<Icon> scoreKeeper = [];
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,19 +51,21 @@ class _QuizPageState extends State<QuizPage> {
         Expanded(
           child: Padding(
             padding: EdgeInsets.all(15.0),
-            child: FlatButton(
-              textColor: Colors.white,
+            child: Container(
               color: Colors.green,
-              child: Text(
-                'True',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
+              child: TextButton(
+                child: Text(
+                  'True',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                  ),
                 ),
+                onPressed: () {
+                  //The user picked true.
+                  addTrue();
+                },
               ),
-              onPressed: () {
-                //The user picked true.
-              },
             ),
           ),
         ),
@@ -80,13 +83,45 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked false.
+                addFalse();
               },
             ),
           ),
         ),
-        //TODO: Add a Row here as your score keeper
+        Row(
+          children: scoreKeeper,
+        )
       ],
     );
+  }
+
+  void addTrue() => setState(() {
+        scoreKeeper.add(Icon(Icons.check, color: Colors.green));
+      });
+
+  void addFalse() => setState(() {
+        scoreKeeper.add(Icon(Icons.close, color: Colors.red));
+      });
+
+
+  void addAnswer(bool answer) {
+    setState(() {
+      if (answer) {
+        scoreKeeper.add(
+          Icon(
+            Icons.check,
+            color: Colors.green,
+          ),
+        );
+        return;
+      }
+      scoreKeeper.add(
+        Icon(
+          Icons.close,
+          color: Colors.red,
+        ),
+      );
+    });
   }
 }
 
