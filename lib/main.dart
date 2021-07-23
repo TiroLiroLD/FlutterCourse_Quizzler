@@ -31,6 +31,11 @@ class _QuizPageState extends State<QuizPage> {
     'Approximately one quarter of human bones are in the feet.',
     "A slug's blood is green.",
   ];
+  List<bool> answers = [
+    false,
+    true,
+    true,
+  ];
   int questionNumber = 0;
 
   @override
@@ -70,7 +75,10 @@ class _QuizPageState extends State<QuizPage> {
                 ),
                 onPressed: () {
                   //The user picked true.
-                  addTrue();
+                  if (answers[questionNumber])
+                    addCorrect();
+                  else
+                    addWrong();
                 },
               ),
             ),
@@ -90,7 +98,10 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked false.
-                addFalse();
+                if (!answers[questionNumber])
+                  addCorrect();
+                else
+                  addWrong();
               },
             ),
           ),
@@ -102,12 +113,12 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  void addTrue() => setState(() {
+  void addCorrect() => setState(() {
         scoreKeeper.add(Icon(Icons.check, color: Colors.green));
         nextQuestion();
       });
 
-  void addFalse() => setState(() {
+  void addWrong() => setState(() {
         scoreKeeper.add(Icon(Icons.close, color: Colors.red));
         nextQuestion();
       });
