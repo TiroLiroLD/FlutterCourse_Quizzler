@@ -30,8 +30,6 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
-  int questionNumber = 0;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,7 +42,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                quiz.questions[questionNumber].question,
+                quiz.getQuestion(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -69,10 +67,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
                 onPressed: () {
                   //The user picked true.
-                  if (quiz.questions[questionNumber].answer)
-                    addCorrect();
-                  else
-                    addWrong();
+                  checkAnswer(true);
                 },
               ),
             ),
@@ -93,10 +88,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
                 onPressed: () {
                   //The user picked false.
-                  if (!quiz.questions[questionNumber].answer)
-                    addCorrect();
-                  else
-                    addWrong();
+                  checkAnswer(false);
                 },
               ),
             ),
@@ -109,17 +101,19 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
+  void checkAnswer(bool guess) {
+    if (quiz.getAnswer() == guess)
+      addCorrect();
+    else
+      addWrong();
+    quiz.nextQuestion();
+  }
+
   void addCorrect() => setState(() {
         scoreKeeper.add(Icon(Icons.check, color: Colors.green));
-        nextQuestion();
       });
 
   void addWrong() => setState(() {
         scoreKeeper.add(Icon(Icons.close, color: Colors.red));
-        nextQuestion();
       });
-
-  void nextQuestion() {
-    if (questionNumber < quiz.questions.length - 1) questionNumber++;
-  }
 }
