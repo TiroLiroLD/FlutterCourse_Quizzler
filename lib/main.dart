@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'question.dart';
+import 'quiz_brain.dart';
+
+QuizBrain quiz = QuizBrain();
 
 void main() => runApp(Quizzler());
 
@@ -30,21 +32,6 @@ class _QuizPageState extends State<QuizPage> {
 
   int questionNumber = 0;
 
-  List<Question> questions = [
-    Question(
-      question: 'You can lead a cow down stairs but not up stairs.',
-      answer: false,
-    ),
-    Question(
-      question: 'Approximately one quarter of human bones are in the feet.',
-      answer: true,
-    ),
-    Question(
-      question: "A slug's blood is green.",
-      answer: true,
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -57,7 +44,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questions[questionNumber].question,
+                quiz.questions[questionNumber].question,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -82,7 +69,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
                 onPressed: () {
                   //The user picked true.
-                  if (questions[questionNumber].answer)
+                  if (quiz.questions[questionNumber].answer)
                     addCorrect();
                   else
                     addWrong();
@@ -106,7 +93,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
                 onPressed: () {
                   //The user picked false.
-                  if (!questions[questionNumber].answer)
+                  if (!quiz.questions[questionNumber].answer)
                     addCorrect();
                   else
                     addWrong();
@@ -133,6 +120,6 @@ class _QuizPageState extends State<QuizPage> {
       });
 
   void nextQuestion() {
-    if (questionNumber < questions.length - 1) questionNumber++;
+    if (questionNumber < quiz.questions.length - 1) questionNumber++;
   }
 }
